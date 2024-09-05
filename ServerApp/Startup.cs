@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +20,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using ServerApp.Data;
 using ServerApp.Models;
+using AutoMapper;
 
 namespace ServerApp
 {
@@ -35,6 +39,7 @@ namespace ServerApp
         {
             services.AddDbContext<SocialContext>(x => x.UseSqlite("Data Source=social.db"));
             services.AddIdentity<User, Role>().AddEntityFrameworkStores<SocialContext>();
+            services.AddScoped<ISocialRepository,SocialRepository>();
             services.Configure<IdentityOptions>(options =>
             {
 
@@ -52,7 +57,10 @@ namespace ServerApp
 
                 }
             });
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddAutoMapper(typeof(Startup));
+            services.AddControllers().AddNewtonsoftJson(options=>{
+                options.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
             services.AddCors(options =>
             {
                 options.AddPolicy(
@@ -84,11 +92,31 @@ namespace ServerApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,UserManager<User> userManager)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                SeedDatabase.Seed(userManager).Wait();
+            }
+            else{
+                app.UseExceptionHandler(appError=>{
+                   appError.Run(async context=> {
+                    context.Response.StatusCode=(int)HttpStatusCode.InternalServerError;
+                    context.Response.ContentType="application/json";
+
+                    var exception=context.Features.Get<IExceptionHandlerFeature>();
+                    if(exception!=null)
+                    {
+                     await context.Response.WriteAsync( new ErrorDetails()
+                     {
+                        StatusCode = context.Response.StatusCode,
+                        Message = exception.Error.Message
+                     }.ToString());
+                    }
+
+                   }); 
+                });
             }
 
             // app.UseHttpsRedirection();

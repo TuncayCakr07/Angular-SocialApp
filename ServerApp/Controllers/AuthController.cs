@@ -9,20 +9,21 @@ using ServerApp.Models;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 
 namespace ServerApp.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _singinManager;
 
         public readonly IConfiguration _configuration;
 
-        public UserController(UserManager<User> userManager, SignInManager<User> signInManager,IConfiguration configuration)
+        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager,IConfiguration configuration)
         {
             _userManager = userManager;
             _singinManager = signInManager;
@@ -32,6 +33,9 @@ namespace ServerApp.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDTO model)
         {
+            if(!ModelState.IsValid)
+             return BadRequest(ModelState);
+
             var user = new User
             {
                 UserName = model.UserName,
@@ -54,6 +58,10 @@ namespace ServerApp.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDTO model)
         {
+            if(!ModelState.IsValid)
+            return BadRequest(ModelState);
+            //throw new Exception("interval exception");
+             
             var user = await _userManager.FindByNameAsync(model.UserName);
 
             if (user == null)

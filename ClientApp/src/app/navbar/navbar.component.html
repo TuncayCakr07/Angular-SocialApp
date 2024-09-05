@@ -7,7 +7,7 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarToggler">
-      <ul class="navbar-nav mr-auto">
+      <ul *ngIf="loggedIn()" class="navbar-nav mr-auto">
 
         <li class="nav-item">
           <a [routerLink]="['/members']" routerLinkActive="active"  class="nav-link">Members</a>
@@ -21,17 +21,17 @@
       </ul>
       <ul *ngIf="loggedIn()" class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a href="" class="nav-link">Username</a>
+          <a href="" class="nav-link">{{ autService?.decodedToken?.unique_name }}</a>
         </li>
         <li class="nav-item">
           <a href="" class="nav-link" (click)="logout()">Logout</a>
         </li>
       </ul>
 
-      <form *ngIf="!loggedIn()" #form="ngForm" class="form-inline mt-2 mt-md-0" (ngSubmit)="login()">
+      <form *ngIf="!loggedIn()" #form="ngForm" class="form-inline mt-2 mt-md-0 ml-auto" (ngSubmit)="login()">
         <input #username="ngModel" class="form-control form-control-sm mr-sm-2" required minlength="5" type="text" name="username" placeholder="Username" [(ngModel)]="model.username">
         <input #password="ngModel" class="form-control form-control-sm mr-sm-2" required minlength="6" type="password" name="password" placeholder="Password" [(ngModel)]="model.password">
-        <button [disabled]="form.invalid" class="btn btn-success btn-sm my-2 my-sm-0" type="submit">Login</button>
+        <button class="btn btn-success btn-sm my-2 my-sm-0" type="submit">Login</button>
       </form>
     </div>
   </div>
