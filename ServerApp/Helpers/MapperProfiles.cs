@@ -13,7 +13,16 @@ namespace ServerApp.Helpers
             .ForMember(dest=>dest.Image,opt =>
             opt.MapFrom(src=>src.Images.FirstOrDefault(i=>i.IsProfile))).
             ForMember(dest=>dest.Age,opt=>opt.MapFrom(src=>src.DateOfBirth.CalculateAge()));
-            CreateMap<User,UserForDetailsDTO>();
+
+            CreateMap<User,UserForDetailsDTO>()
+            .ForMember(dest=>dest.ProfileImageUrl,opt =>
+            opt.MapFrom(src=>src.Images.FirstOrDefault(i=>i.IsProfile).Name))
+
+            .ForMember(dest=>dest.Images,opt =>
+            opt.MapFrom(src=>src.Images.Where(i=>!i.IsProfile).ToList()))
+
+            .ForMember(dest=>dest.Age,opt=>opt.MapFrom(src=>src.DateOfBirth.CalculateAge()));    
+            ;
             CreateMap<Image,ImagesForDetailsDTO>();
         }
     }

@@ -11,7 +11,7 @@ import { ProductFormComponent } from './product-form/product-form.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
-import { MemberListComponent } from './member-list/member-list.component';
+import { MemberListComponent } from './members/member-list/member-list.component';
 import { FriendListComponent } from './friend-list/friend-list.component';
 import { HomeComponent } from './home/home.component';
 import { MessagesComponent } from './messages/messages.component';
@@ -20,6 +20,8 @@ import { RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
 import { AuthGuard } from './_guards/auth-guard';
 import { ErrorInterceptor } from './_services/error.intercaptor';
+import { MemberDetailsComponent } from './members/member-details/member-details.component';
+import { PhotoGalleryComponent } from './photo-gallery/photo-gallery.component';
 
 
 export function tokenGetter(){
@@ -39,7 +41,9 @@ export function tokenGetter(){
     FriendListComponent,
     HomeComponent,
     MessagesComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    MemberDetailsComponent,
+    PhotoGalleryComponent
   ],
   imports: [
     BrowserModule,

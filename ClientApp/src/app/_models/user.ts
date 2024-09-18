@@ -1,8 +1,9 @@
-import { image } from './Image';
+import { image } from './image';
+
 
 export class User{
   id:number;
-  username:string;
+  username?:string;
   name:string;
   age:number;
   gender:string;
@@ -12,5 +13,6 @@ export class User{
   country:string;
   introduction:string;
   hobbies:string;
+  profileImageUrl:string;
   images:image[];
 }
