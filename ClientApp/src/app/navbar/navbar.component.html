@@ -21,7 +21,7 @@
       </ul>
       <ul *ngIf="loggedIn()" class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a href="" class="nav-link">{{ autService?.decodedToken?.unique_name }}</a>
+          <a [routerLink]="['/member/edit']" class="nav-link">{{ autService?.decodedToken?.unique_name }}</a>
         </li>
         <li class="nav-item">
           <a href="" class="nav-link" (click)="logout()">Logout</a>

@@ -22,6 +22,8 @@ import { AuthGuard } from './_guards/auth-guard';
 import { ErrorInterceptor } from './_services/error.intercaptor';
 import { MemberDetailsComponent } from './members/member-details/member-details.component';
 import { PhotoGalleryComponent } from './photo-gallery/photo-gallery.component';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { MemberEditResolver } from './_resolvers/member-edit.resolver';
 
 
 export function tokenGetter(){
@@ -43,7 +45,8 @@ export function tokenGetter(){
     MessagesComponent,
     NotfoundComponent,
     MemberDetailsComponent,
-    PhotoGalleryComponent
+    PhotoGalleryComponent,
+    MemberEditComponent
   ],
   imports: [
     BrowserModule,
@@ -59,11 +62,14 @@ export function tokenGetter(){
     }),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AuthGuard,{
+  providers: [
+    AuthGuard,
+  {
     provide:HTTP_INTERCEPTORS,
     useClass:ErrorInterceptor,
     multi:true
-  }],
+  },
+ MemberEditResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

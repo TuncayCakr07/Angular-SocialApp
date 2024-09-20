@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ServerApp.Data;
 using ServerApp.DTO;
 
@@ -44,6 +46,25 @@ namespace ServerApp.Controllers
             var result=_mapper.Map<UserForDetailsDTO>(user);
 
             return Ok(result);
+        }
+
+       [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id,UserForUpdateDTO model)
+        {
+           if(id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+             return BadRequest("Not Valid Request");
+           if(!ModelState.IsValid)
+             return BadRequest(ModelState);
+            
+            var user = await _repository.GetUser(id);
+
+            _mapper.Map(model,user);
+
+            if(await _repository.SaveChanges())
+              return Ok();
+
+            throw new System.Exception("güncelleme sırasında hata oluştu");
+            
         }
     }
 }
