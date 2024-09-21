@@ -3,12 +3,16 @@
         <div class="col-sm-4">
             <div class="card">
                 <div class="img-container">
-                <img src="{{user?.profileImageUrl}}" class="card-img-top img-thumbnail" alt="{{user?.name}}">
+                <img src="{{user?.profileImageUrl|| '../../../../../assets/user.jpeg'}}" class="card-img-top img-thumbnail" alt="{{user?.name}}">
                 </div>
                 <div class="card-body">
                  <div>
                   <strong>Location</strong>
                   <p>{{user?.country}}</p>
+                 </div>
+                 <div>
+                  <strong>City</strong>
+                  <p>{{user?.city}}</p>
                  </div>
                  <div>
                   <strong>Age</strong>

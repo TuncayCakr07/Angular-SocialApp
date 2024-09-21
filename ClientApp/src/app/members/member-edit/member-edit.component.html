@@ -3,12 +3,16 @@
     <div class="col-sm-4">
       <div class="card">
         <div class="img-container">
-          <img src="{{user?.profileImageUrl}}" class="card-img-top img-thumbnail" alt="{{user.name}}">
+          <img src="{{user?.profileImageUrl|| '../../../../../assets/user.jpeg'}}" class="card-img-top img-thumbnail" alt="{{user.name}}">
         </div>
         <div class="card-body">
           <div>
             <strong>Location</strong>
             <p>{{user?.country}}</p>
+          </div>
+          <div>
+            <strong>City</strong>
+            <p>{{user?.city}}</p>
           </div>
           <div>
             <strong>Age</strong>
@@ -35,26 +39,26 @@
       </div>
       <div class="card mb-3">
         <div class="card-body">
-          <form>
+          <form #editForm="ngForm" (ngSubmit)="updateUser()">
             <div class="form-group">
               <label for="introduction">Introduction</label>
-              <textarea class="form-control" id="introduction" name="introduction" rows="5" [(ngModel)]="user.introduction"></textarea>
+              <textarea required class="form-control" id="introduction" name="introduction" rows="5" [(ngModel)]="user.introduction"></textarea>
             </div>
             <div class="form-group">
               <label for="hobbies">Hobbies</label>
-              <textarea class="form-control" id="hobbies" name="hobbies" rows="5" [(ngModel)]="user.hobbies"></textarea>
+              <textarea required class="form-control" id="hobbies" name="hobbies" rows="5" [(ngModel)]="user.hobbies"></textarea>
             </div>
             <div class="form-row mb-3">
               <div class="col-md-6">
-                <label for="country">Country</label>
-                <input type="text" class="form-control" name="country" [(ngModel)]="user.country">
+                <label for="hobbies">Country</label>
+                <input required type="text" class="form-control" id="country" name="country" [(ngModel)]="user.country">
               </div>
               <div class="col-md-6">
-                <label for="city">City</label>
-                <input type="text" class="form-control" name="city" [(ngModel)]="user.city">
+                <label for="hobbies">City</label>
+               <input required type="text" class="form-control" id="city" name="city" [(ngModel)]="user.city">
               </div>
             </div>
-            <button class="btn btn-success btn-block">Save Changes</button>
+            <button [disabled]="editForm.invalid || !editForm.dirty" class="btn btn-success btn-block">Save Changes</button>
           </form>
         </div>
       </div>

@@ -13,12 +13,25 @@ import { UserService } from 'src/app/_services/user.service';
 export class MemberEditComponent implements OnInit {
 
   user:User;
-  constructor(private route:ActivatedRoute) { }
+  constructor(private route:ActivatedRoute,
+   private userService:UserService,
+   private alertify:AlertifyService,
+   private authService:AuthService) { }
 
   ngOnInit(): void {
   this.route.data.subscribe(data=>{
     this.user=data.user;
   })
+  }
+
+
+  updateUser() {
+   this.userService.updateUser(this.authService.decodedToken.nameid,this.user)
+   .subscribe(()=>{
+    this.alertify.success("Profiliniz Güncellendi.");
+   },err=>{
+    this.alertify.error(err);
+   })
   }
 
 }
