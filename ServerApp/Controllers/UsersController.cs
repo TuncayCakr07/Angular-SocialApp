@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ServerApp.Data;
 using ServerApp.DTO;
+using ServerApp.Helpers;
+using ServerApp.Models;
 
 namespace ServerApp.Controllers
 {
+    [ServiceFilter(typeof(LastActiveActionFilter))]
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
@@ -65,6 +68,38 @@ namespace ServerApp.Controllers
 
             throw new System.Exception("güncelleme sırasında hata oluştu");
             
+        }
+        
+        [HttpPost("{followerUserId}/follow/{userId}")]
+        public async Task<IActionResult>FollowUser(int followerUserId,int userId)
+        {
+         if(followerUserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+             return Unauthorized();
+
+          if(followerUserId==userId)
+          return BadRequest("Kullanıcı Kendi Hesabını Takip Edemez!");
+
+          var IsReadyFollowed=await _repository
+          .IsAlreadyFollowed(followerUserId,userId);
+
+          if(IsReadyFollowed)
+          return BadRequest("Zaten Kullanıcı Takip Ediliyor");
+
+          if(await _repository.GetUser(userId)==null)
+           return NotFound();
+
+           var follow= new UserToUser(){
+            UserId=userId,
+            FollowerId=followerUserId,
+           };
+           
+           _repository.Add<UserToUser>(follow);
+
+           if(await _repository.SaveChanges())
+              return Ok();
+
+           return BadRequest("Hata Oluştu");
+
         }
     }
 }

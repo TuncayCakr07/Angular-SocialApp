@@ -8,6 +8,12 @@ export class ErrorInterceptor implements HttpInterceptor {
    return next.handle(req)
     .pipe(catchError((error:HttpErrorResponse)=>{
       if(error.status===400){
+
+        if(error.error){
+          return throwError(error.error)
+        }
+
+
        if(error.error.errors){
         const serverError=error.error;
         let errorMessage='';

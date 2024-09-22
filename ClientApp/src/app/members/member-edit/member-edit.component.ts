@@ -7,7 +7,7 @@ import { UserService } from 'src/app/_services/user.service';
 
 @Component({
   selector: 'app-member-edit',
-  templateUrl: './member-edit.component.html',
+  templateUrl:'./member-edit.component.html',
   styleUrls: ['./member-edit.component.css']
 })
 export class MemberEditComponent implements OnInit {

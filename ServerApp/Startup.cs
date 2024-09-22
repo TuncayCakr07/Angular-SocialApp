@@ -21,6 +21,7 @@ using Microsoft.IdentityModel.Tokens;
 using ServerApp.Data;
 using ServerApp.Models;
 using AutoMapper;
+using ServerApp.Helpers;
 
 namespace ServerApp
 {
@@ -89,6 +90,8 @@ namespace ServerApp
                     ValidateAudience=false
                 };
             });
+
+            services.AddScoped<LastActiveActionFilter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

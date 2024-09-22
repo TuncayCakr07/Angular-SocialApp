@@ -24,6 +24,8 @@ import { MemberDetailsComponent } from './members/member-details/member-details.
 import { PhotoGalleryComponent } from './photo-gallery/photo-gallery.component';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { MemberEditResolver } from './_resolvers/member-edit.resolver';
+import { TimeagoModule } from 'ngx-timeago';
+import { MemberDetailsResolver } from './_resolvers/member-details.resolver';
 
 
 export function tokenGetter(){
@@ -53,6 +55,7 @@ export function tokenGetter(){
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    TimeagoModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter:tokenGetter,
@@ -69,7 +72,8 @@ export function tokenGetter(){
     useClass:ErrorInterceptor,
     multi:true
   },
- MemberEditResolver],
+ MemberEditResolver,
+ MemberDetailsResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
