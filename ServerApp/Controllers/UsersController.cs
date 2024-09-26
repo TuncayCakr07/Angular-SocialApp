@@ -30,9 +30,11 @@ namespace ServerApp.Controllers
         }
 
         //api/getusers/
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsers([FromQuery]UserQueryParams userParams)
         {
-            var users = await _repository.GetUsers();
+            await Task.Delay(1000);
+           userParams.UserId=int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var users = await _repository.GetUsers(userParams);
             
             var liste=new List<UserForListDto>();
             

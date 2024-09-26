@@ -24,12 +24,12 @@ namespace ServerApp.Data
             builder.Entity<UserToUser>()
             .HasOne(l => l.User)
             .WithMany(a => a.Followers)
-            .HasForeignKey(l => l.UserId);
+            .HasForeignKey(l => l.FollowerId);
 
             builder.Entity<UserToUser>()
             .HasOne(l => l.Follower)
             .WithMany(a => a.Followings)
-            .HasForeignKey(l => l.FollowerId);
+            .HasForeignKey(l => l.UserId);
         }
     }
 }

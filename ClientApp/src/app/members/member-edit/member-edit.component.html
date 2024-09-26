@@ -3,28 +3,28 @@
     <div class="col-sm-4">
       <div class="card">
         <div class="img-container">
-          <img src="{{user?.profileImageUrl|| 'assets/user.jpeg'}}" class="card-img-top img-thumbnail" alt="{{user.name}}">
+          <img src="{{user.profileImageUrl|| 'assets/user.jpeg'}}" class="card-img-top img-thumbnail" alt="{{user.name}}">
         </div>
         <div class="card-body">
           <div>
             <strong>Location</strong>
-            <p>{{user?.country}}</p>
+            <p>{{user.country}}</p>
           </div>
           <div>
             <strong>City</strong>
-            <p>{{user?.city}}</p>
+            <p>{{user.city}}</p>
           </div>
           <div>
             <strong>Age</strong>
-            <p>{{user?.age}}</p>
+            <p>{{user.age}}</p>
           </div>
           <div>
             <strong>Created Date</strong>
-            <p>{{user?.lastActive | date:'short'}}</p>
+            <p>{{user.lastActive | date:'short'}}</p>
           </div>
           <div>
             <strong>Last Active</strong>
-            <p>{{user?.lastActive | timeago}}</p>
+            <p>{{user.lastActive | timeago}}</p>
           </div>
         </div>
       </div>

@@ -11,16 +11,23 @@ import { AlertifyService } from '../../_services/alertify.service';
 export class MemberListComponent implements OnInit {
 
   users: User[];
-  constructor(private userService:UserService,private alertify:AlertifyService) { }
+  public loading = false;
+  userParams: any = {};
+
+  constructor(private userService: UserService, private alertify: AlertifyService) { }
 
   ngOnInit(): void {
     this.getUsers();
   }
 
-  getUsers(){
-    this.userService.getUsers().subscribe(user=> {
-    this.users=user;
-    },err=>{
+  getUsers() {
+    this.loading = true;
+    console.log(this.userParams);
+    this.userService.getUsers(null,this.userParams).subscribe(user => {
+      this.loading = false;
+      this.users = user;
+    }, err => {
+      this.loading = false;
       this.alertify.error(err);
     })
   }
