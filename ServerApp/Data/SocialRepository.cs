@@ -38,6 +38,7 @@ namespace ServerApp.Data
             var users = _context.Users
             .Where(i => i.Id != userParams.UserId)
             .Include(i => i.Images)
+            .OrderByDescending(i => i.LastActive)
             .AsQueryable();
 
             if (userParams.Followers)
@@ -78,6 +79,18 @@ namespace ServerApp.Data
                 users = users.Where(i => i.Country.ToLower() == userParams.Country.ToLower());
             }
 
+            if (!string.IsNullOrEmpty(userParams.OrderBy))
+            {
+                if (userParams.OrderBy == "age")
+                {
+                    users = users.OrderBy(i => i.DateOfBirth);
+                }
+
+                else if (userParams.OrderBy == "created")
+                {
+                  users=users.OrderByDescending(i=>i.Created);
+                }
+            }
             return await users.ToListAsync();
         }
 

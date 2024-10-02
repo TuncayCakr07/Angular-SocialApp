@@ -26,6 +26,7 @@ namespace ServerApp.Helpers
             CreateMap<Image,ImagesForDetailsDTO>();
             
             CreateMap<UserForUpdateDTO,User>();
+            CreateMap<MessageForCreateDTO,Message>();
        }
     }
 }

@@ -7,31 +7,31 @@ import { UserService } from 'src/app/_services/user.service';
 
 @Component({
   selector: 'app-member-edit',
-  templateUrl:'./member-edit.component.html',
+  templateUrl: './member-edit.component.html',
   styleUrls: ['./member-edit.component.css']
 })
 export class MemberEditComponent implements OnInit {
 
-  user:User;
-  constructor(private route:ActivatedRoute,
-   private userService:UserService,
-   private alertify:AlertifyService,
-   private authService:AuthService) { }
+  user: User;
+  constructor(private route: ActivatedRoute,
+    private userService: UserService,
+    private alertify: AlertifyService,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
-  this.route.data.subscribe(data=>{
-    this.user=data.user;
-  })
+    this.route.data.subscribe(data => {
+      this.user = data.user;
+    })
   }
 
 
   updateUser() {
-   this.userService.updateUser(this.authService.decodedToken.nameid,this.user)
-   .subscribe(()=>{
-    this.alertify.success("Profiliniz Güncellendi.");
-   },err=>{
-    this.alertify.error(err);
-   })
+    this.userService.updateUser(this.authService.decodedToken.nameid, this.user)
+      .subscribe(() => {
+        this.alertify.success("Profiliniz Güncellendi.");
+      }, err => {
+        this.alertify.error(err);
+      })
   }
 
 }

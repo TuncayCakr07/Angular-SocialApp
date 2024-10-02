@@ -38,6 +38,10 @@ export class UserService
 
       if(userParams.city!=null)
         params=params.append('city',userParams.city);
+
+      if(userParams.orderby!=null)
+        params=params.append("orderby",userParams.orderby);
+
     }
 
 

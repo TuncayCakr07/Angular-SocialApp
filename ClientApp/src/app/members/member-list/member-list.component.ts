@@ -5,7 +5,7 @@ import { AlertifyService } from '../../_services/alertify.service';
 
 @Component({
   selector: 'app-member-list',
-  templateUrl: './member-list.component.html',
+  templateUrl:'./member-list.component.html',
   styleUrls: ['./member-list.component.css']
 })
 export class MemberListComponent implements OnInit {
@@ -13,10 +13,12 @@ export class MemberListComponent implements OnInit {
   users: User[];
   public loading = false;
   userParams: any = {};
+  user:User;
 
   constructor(private userService: UserService, private alertify: AlertifyService) { }
 
   ngOnInit(): void {
+    this.userParams.orderby="lastactive"
     this.getUsers();
   }
 
